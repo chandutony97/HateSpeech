@@ -35,8 +35,6 @@ y_test = combine_labels(test_df)
 # Further splitting training data for validation
 X, X_val, Y, Y_val = train_test_split(X, Y, test_size=0.2, random_state=42)
 
-
-
 # # Visualize the counts of each class
 # sns.countplot(x='Toxic', data=Y)
 # plt.title('Counts of each class')
@@ -62,6 +60,14 @@ predictions = model.predict(X_val['comment_text'])
 print(classification_report(Y_val['Toxic'], predictions))
 
 
+def is_toxic(sentence):
+    prediction = model.predict([sentence])
+    if prediction[0] == 0:
+        return False
+    else:
+        return True
+
+
 # def predict_hate_speech(sentence):
 #     prediction = model.predict([sentence])
 #     if prediction[0] == 0:
@@ -79,7 +85,7 @@ def predict_hate_speech():
         try:
             sentence = input("Please enter a sentence or 'exit' to quit: ")
             #  user enters exit if they want to exit the loop
-            if sentence.lower() == 'exit':
+            if sentence.lower() == '[exit]':
                 break
             if not isinstance(sentence, str):
                 raise ValueError("Input must be a string.")
@@ -93,6 +99,6 @@ def predict_hate_speech():
         except Exception as e:
             print("An unexpected error occurred:", e)
 
+
 # Test the function
 predict_hate_speech()
-
